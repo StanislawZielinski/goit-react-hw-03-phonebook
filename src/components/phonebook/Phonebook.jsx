@@ -27,9 +27,23 @@ class Phonebook extends Component {
                 form.reset();
                 return
             }  
-        }
+        };
+        
         this.setState({...this.state, contacts:[...this.state.contacts,{name:name, id:nanoid(), number:phoneNumber} ]})
         form.reset();
+    }
+    
+    componentDidUpdate() {
+        localStorage.setItem("newState", JSON.stringify(this.state.contacts));
+        console.log(localStorage);
+    }
+        componentDidMount() {
+        const newStatetmp = localStorage.getItem("newState");
+        const newState = JSON.parse(newStatetmp);
+            console.log(newState);
+            if (newState !== null) {
+                this.setState({...this.state, contacts:newState})
+            }
     }
     renderContacts = (filterValue, contacts) => {
         if (!filterValue) {
